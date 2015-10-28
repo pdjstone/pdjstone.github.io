@@ -1,19 +1,20 @@
 <!DOCTYPE html>
+<head><title>IE/Edge - enable designMode on any site</title></head>
 <body class="xyz">
-<h1>IE/Edge - set designMode on any site</h1>
+<h1>IE/Edge - enable designMode on any site</h1>
 <p>Works on all IE versions + Edge</p> 
 <ol>
 <li>Enable document.designMode on about:blank iframe</li>
 <li>Load another site in frame</li>
-<li>Copy+paste HTML into frame (UXSS was fixed in CVE-2010-0494)</li>
+<li>Copy+paste HTML into frame</li>
 </ol>
-<p id="sel">[copy+
+<p id="sel">[copy +
 <style>
-body:not(.xyz) h1 { color: red; background-image: url('https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSY3rM6CeFOHbar2dKEiEvOoXDlkuwObLDSqdvm3XPXR2DYbtc_vA&foo=bardsfdfg'); background-color:green }
+body:not(.xyz) h1 { color: red; background: url('http://pdjstone.github.io/ie-designmode/1.png') green }
 </style>
 paste me into the iframe]</p>
 
-<iframe id="f"></iframe>
+<iframe id="f" width="500" height="300"></iframe>
 
 <script>
 function doSel() {
@@ -29,7 +30,7 @@ function doDesignMode() {
 	frame.src = 'about:blank';
 	frame.onload = function() {
 		frame.contentWindow.document.designMode = 'on';
-		frame.src = 'https://example.org';
+		frame.src = 'http://example.org';
 		frame.onload = null;
 	};
 }
@@ -37,5 +38,10 @@ doDesignMode();
 doSel();
 document.getElementById('sel').onclick=doSel;
 </script>
-
+<h2>Limitations</h2>
+<ul>
+<li>No &lt;script&gt;, onclick, etc... - fixed in CVE-2010-0494
+<li>Can't &lt;link&gt; or @import stylesheets
+</ul>
+</ul>
 </body>
